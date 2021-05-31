@@ -127,7 +127,7 @@ class MarkovModel():
         """
         return np.array(list(map(self.state_to_label,path)))
 
-    def renormalize(self):
+    def normalize(self):
         """
             Normalization per rows of `self.iteration matrix` 
             based on the current `self.iteration_matrix`.
