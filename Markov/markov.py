@@ -113,57 +113,6 @@ class MarkovModel():
 
         return None
     
-    ###########################################################################
-    ########################### Theoretical stuff #############################
-    ###########################################################################
-
-    def is_irreducible(self) -> bool:
-        """
-            Returns `True` if the Markov chain is irreducible.
-
-            It runs in about O(n^5) where n * n is the size of 
-            the iteration matrix.
-        """
-
-        l = len(self)
-        i0   = -1
-        j0   = -1
-        
-        # Note that extrema can be removed since in either 
-        # the rows can't be normalized if they were all 0s or
-        # the square has length 1
-        for i in range(l-1):
-            for j in range(1,l-1):
-                # Check whether the entire row i, from j onwards is null
-                if not np.any(self.iteration_matrix[i,j:]):
-                    i0 = i
-                    j0 = j
-
-                # If a possible square is not found return at the beginning
-                # of the loop. 
-                if i0 == -1:
-                    continue
-
-                # length of the square of 0s
-                M = l - j0
-
-                # Check whether M <= 1, therefore if the square is of trivial 
-                # size and check whether the square could have 
-                # the same height as the width.                
-                if M <= 1 or i0+M > l:
-                    i0 = -1
-                    j0 = -1
-                    continue
-
-                # If the entire square is 0s then there's a closed set,
-                # therefore we can conclude is not irreducible.
-                if not np.any(self.iteration_matrix[i0:(i0+M),j0:]):
-                    return False
-                else: 
-                    i0 = -1
-                    j0 = -1
-            
-        return True
 
     def __iter__(self):
         return self
