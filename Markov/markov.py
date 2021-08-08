@@ -11,14 +11,19 @@ class MarkovModel():
     
     def __init__(self, iteration_matrix:np.array, distribution:dict[str, float]):
         """
-            distribution : Dict  
+            TODO
         """
         self.iteration_matrix = iteration_matrix
         self.current_distr    = distribution
 
-    def set_current_distr(self, distr:dict[str,float], checks=False):
+
+    ###########################################################################
+    ################## Get, set and update distribution #######################
+    ###########################################################################
+
+    def set_current_distr(self, distr:dict[str,float], checks : bool =False):
         """
-            
+            TODO
         """
         if checks:
             M = sum(list(distr.values()))
@@ -31,31 +36,44 @@ class MarkovModel():
         self.current_distr = distr
         return None
 
-    def reset_distr(self):
-        ""
+    def reset_distr(self) -> None:
+        """
+            TODO
+        """
         self.current_distr = {k:0 for k in self.current_distr}
         return None
 
-    def update_distr(self, node:str, value:float):
+    def update_distr(self, node:str, value:float) -> None:
         """
-        
+            TODO
         """
         self.current_distr[node] = value
         
         return None
 
-    def set_to_dirac_distr(self, node:str):
+    def set_to_dirac_distr(self, node:str) -> None:
+        """
+            TODO
+        """
         self.reset_distr()
         self.current_distr[node] = 1
 
         return None
+    
+    def distribution(self) -> dict[str,float]:
+        return self.current_distr
 
-    def evaluate_next(self, n=1, normalize=True):
+    
+    ###########################################################################
+    ###########################################################################
+    ###########################################################################
+
+    def evaluate_next(self, n : int = 1, normalize : bool = True) -> None:
         """
             Evaluate in-place the new distribution after 1 step.
         """
-        while n >= 1:
-            values = np.array(list(self.current_distr.values()))
+        for i in range(n):
+            values      = np.array(list(self.current_distr.values()))
             new_values  = self.iteration_matrix.dot(values) 
             
             i = 0
@@ -69,10 +87,9 @@ class MarkovModel():
             if normalize:
                 self.normalize_distr()
 
-            n -= 1
         return None
 
-    def normalize(self):
+    def normalize(self) -> None:
         """
             Normalization per rows of `self.iteration matrix` 
             based on the current `self.iteration_matrix`.
@@ -86,15 +103,16 @@ class MarkovModel():
             self.iteration_matrix[i] /= N
         return None
 
-    def normalize_distr(self):
+    def normalize_distr(self) -> None:
+        """
+            TODO
+        """
         K = sum(list(self.current_distr.values()))
         for key in self.current_distr:
             self.current_distr[key] /= K
 
         return None
     
-    def distribution(self):
-        return self.current_distr
     
     def __iter__(self):
         return self
