@@ -1,22 +1,23 @@
 import numpy as np
-from markov import MarkovModel 
-from multiprocessing import Pool
+from markov import StationaryMarkovChain
 
 class MarkovModelGenerator():
 
-    def generate(data,roll=True):
+    def generate(data:np.ndarray, function = None) -> StationaryMarkovChain:
         """
-           `generate` returns a MarkovModel based on data
-            as an indexed array. 
+            TODO:
         """
 
-        mkModel = MarkovModelGenerator.generate_without_normalization(data,roll = roll)
+        mkModel = MarkovModelGenerator.generate_without_normalization(data,function = function)
         mkModel.normalize()
         
         return mkModel
 
 
-    def generate_without_normalization(data, roll=True):
+    def generate_without_normalization(data, function = None):
+        """
+            TODO
+        """
         values      = np.unique(data)
         nodes       = len(values)
         iter_mat    = np.zeros((nodes,nodes))        
@@ -24,12 +25,14 @@ class MarkovModelGenerator():
                 np.nonzero(values == x)[0][0],  data)))
 
         K = []
-        if roll: 
+
+        if function == None: 
             K = zip(indexes,np.roll(indexes,-1))
         else: 
-            K = zip(indexes[:-1], indexes[1:])
+            K = function(indexes)
 
         for i, j in K:
             iter_mat[i][j] += 1
 
-        return MarkovModel(iter_mat, nodes_label = values)
+        return StationaryMarkovChain(iter_mat, 
+                    initial_distribution = {str(val):0 for val in values})
