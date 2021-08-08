@@ -151,7 +151,7 @@ class StationaryMarkovChain():
     ###########################################################################
     ###########################################################################
 
-    def evaluate_next(self, n : int = 1, normalize : bool = True) -> None:
+    def evaluate_next(self, n : int = 1) -> None:
         """
             Evaluate in-place the new distribution after 1 step.
         """
@@ -163,13 +163,7 @@ class StationaryMarkovChain():
             i = 0
             for key in self.current_distr:
                 self.current_distr[key] = new_values[i]
-                i += 1 
-            
-            del i
-
-            # Normalization to a distribution
-            if normalize:
-                self.normalize_distr()
+                i += 1
 
         return None
 
@@ -186,23 +180,13 @@ class StationaryMarkovChain():
             N = sum(self.iteration_matrix[i])
             self.iteration_matrix[i] /= N
         return None
-
-    def normalize_distr(self) -> None:
-        """
-            TODO
-        """
-        K = sum(list(self.current_distr.values()))
-        for key in self.current_distr:
-            self.current_distr[key] /= K
-
-        return None
     
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        self.evaluate_next(n=1,normalize=True)
+        self.evaluate_next(n=1)
         return self.current_distr
 
     def __del__(self):
