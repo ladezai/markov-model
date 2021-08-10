@@ -33,3 +33,12 @@ for distr in mkModel:
     mkModel.set_to_dirac_distr(q)
     
 print("".join(word))
+
+
+"""
+    Some results:
+    > choak
+    > calle
+    > cantwe
+    > cevetay
+"""

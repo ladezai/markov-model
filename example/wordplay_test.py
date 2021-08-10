@@ -36,5 +36,10 @@ for distr in mkModel:
     
 print(" ".join(smallsentence))
 
-
+"""
+    Some results:
+    >>> ! thank you do , do that , but your game on ! shrek , get out of you are you can't you can't wait to the helmet hair .
+    >>> ! uh huh i'm an orge .
+    >>> i'm lookin' kind of me properly , sighs i know , mirror don't have to die shrek ! now i will have to you ate ? yes , of somebody once .
+"""
 
